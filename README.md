@@ -13,7 +13,7 @@ A highly configurable bank reconciliation platform designed to automate and stre
 - **Frontend Layer:** Django Templates, HTMX, Bootstrap 5
 - **Backend Layer:** Python 3.12, Django 4.2, Django REST Framework
 - **Processing Layer:** Celery, Redis
-- **Database Layer:** PostgreSQL
+- **Database Layer:** MySQL 8
 
 ## Installation Prerequisites (Docker)
 This application uses Docker and Docker Compose to containerize the development and production environments.

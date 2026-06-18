@@ -8,10 +8,15 @@ ENV PYTHONUNBUFFERED 1
 # Set work directory
 WORKDIR /app
 
-# Install dependencies
+# Install system dependencies required for MySQL client
+RUN apt-get update \
+    && apt-get install -y pkg-config default-libmysqlclient-dev build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install python dependencies
 COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install -r requirements.txt
-RUN pip install gunicorn psycopg2-binary
+RUN pip install gunicorn mysqlclient
 
 # Copy project
 COPY . /app/
