@@ -8,6 +8,9 @@ class ImportBatch(models.Model):
     uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=50, default='PENDING') # PENDING, PROCESSING, COMPLETED, FAILED
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.file_name
 
@@ -22,6 +25,9 @@ class BankTransaction(models.Model):
     transaction_type = models.CharField(max_length=10) # DR or CR
     status = models.CharField(max_length=50, default='UNMATCHED') # UNMATCHED, MATCHED, PARTIALLY_MATCHED
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return f"{self.date} - {self.amount} ({self.transaction_type})"
 
@@ -35,6 +41,9 @@ class SourceTransaction(models.Model):
     transaction_type = models.CharField(max_length=10) # DR or CR
     status = models.CharField(max_length=50, default='UNMATCHED') # UNMATCHED, MATCHED, PARTIALLY_MATCHED
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return f"{self.source_type} - {self.date} - {self.amount}"
 
@@ -43,6 +52,9 @@ class ReconciliationGroup(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=50, default='DRAFT') # DRAFT, PREPARED, REVIEWED, APPROVED
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return f"Recon Group {self.id}"
 
@@ -50,6 +62,9 @@ class ReconciliationItem(models.Model):
     group = models.ForeignKey(ReconciliationGroup, on_delete=models.CASCADE, related_name='items')
     bank_transaction = models.ForeignKey(BankTransaction, on_delete=models.SET_NULL, null=True, blank=True)
     source_transaction = models.ForeignKey(SourceTransaction, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return f"Item in {self.group}"

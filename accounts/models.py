@@ -5,12 +5,18 @@ class Role(models.Model):
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True, null=True)
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.name
 
 class Permission(models.Model):
     name = models.CharField(max_length=100, unique=True)
     code = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return self.name
@@ -21,9 +27,13 @@ class RolePermission(models.Model):
 
     class Meta:
         unique_together = ('role', 'permission')
+        ordering = ['id']
 
 class User(AbstractUser):
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return self.username

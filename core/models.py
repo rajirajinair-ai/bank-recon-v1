@@ -7,6 +7,9 @@ class Company(models.Model):
     pan_number = models.CharField(max_length=10, blank=True, null=True)
     currency = models.CharField(max_length=3, default="INR")
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.name
 
@@ -14,6 +17,9 @@ class Branch(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='branches')
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=50)
+
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return f"{self.company.name} - {self.name}"
@@ -23,12 +29,18 @@ class Department(models.Model):
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=50)
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return f"{self.company.name} - {self.name}"
 
 class Bank(models.Model):
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return self.name
@@ -40,6 +52,9 @@ class BankAccount(models.Model):
     account_type = models.CharField(max_length=50)
     currency = models.CharField(max_length=3, default="INR")
     opening_balance = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
+
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return f"{self.bank.name} - {self.account_number}"
