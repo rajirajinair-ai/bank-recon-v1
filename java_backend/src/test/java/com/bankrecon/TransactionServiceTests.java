@@ -10,6 +10,7 @@ import com.bankrecon.repository.BankRepository;
 import com.bankrecon.repository.BankTransactionRepository;
 import com.bankrecon.repository.CompanyRepository;
 import com.bankrecon.repository.ReconciliationGroupRepository;
+import com.bankrecon.repository.ReconciliationItemRepository;
 import com.bankrecon.repository.SourceTransactionRepository;
 import com.bankrecon.service.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,6 +41,9 @@ class TransactionServiceTests {
     private ReconciliationGroupRepository reconciliationGroupRepository;
 
     @Autowired
+    private ReconciliationItemRepository reconciliationItemRepository;
+
+    @Autowired
     private CompanyRepository companyRepository;
 
     @Autowired
@@ -50,6 +54,7 @@ class TransactionServiceTests {
 
     @BeforeEach
     void setUp() {
+        reconciliationItemRepository.deleteAll();
         reconciliationGroupRepository.deleteAll();
         bankTransactionRepository.deleteAll();
         sourceTransactionRepository.deleteAll();

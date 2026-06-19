@@ -2,8 +2,10 @@ package com.bankrecon;
 
 import com.bankrecon.model.ReportRequest;
 import com.bankrecon.model.User;
+import com.bankrecon.model.Role;
 import com.bankrecon.repository.ReportRequestRepository;
 import com.bankrecon.repository.UserRepository;
+import com.bankrecon.repository.RoleRepository;
 import com.bankrecon.service.ReportService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,17 +29,26 @@ class ReportServiceTests {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @BeforeEach
     void setUp() {
         reportRequestRepository.deleteAll();
         userRepository.deleteAll();
+        roleRepository.deleteAll();
     }
 
     @Test
     void testGenerateReport() throws InterruptedException {
+        Role role = new Role();
+        role.setName("Reporter");
+        roleRepository.save(role);
+
         User user = new User();
         user.setUsername("reportadmin");
         user.setPassword("secret");
+        user.setRole(role);
         userRepository.save(user);
 
         ReportRequest req = new ReportRequest();
@@ -45,10 +56,8 @@ class ReportServiceTests {
         req.setReportType("Summary");
         reportRequestRepository.save(req);
 
-        // Run sync for testing logic instead of @Async
         reportService.generateReport(req.getId());
 
-        // Give async task time to complete in test
         Thread.sleep(2500);
 
         ReportRequest completed = reportRequestRepository.findById(req.getId()).orElse(null);

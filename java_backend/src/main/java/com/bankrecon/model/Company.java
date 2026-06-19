@@ -2,7 +2,6 @@ package com.bankrecon.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.util.List;
 
 @Data
 @Entity
@@ -24,6 +23,6 @@ public class Company {
     @Column(length = 10)
     private String panNumber;
 
-    @Column(length = 3, columnDefinition = "VARCHAR(3) DEFAULT 'INR'")
+    @Column(length = 3)
     private String currency = "INR";
 }

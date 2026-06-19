@@ -1,18 +1,18 @@
 package com.bankrecon.service;
 
 import com.bankrecon.model.BankTransaction;
-import com.bankrecon.model.SourceTransaction;
 import com.bankrecon.model.ReconciliationGroup;
 import com.bankrecon.model.ReconciliationItem;
+import com.bankrecon.model.SourceTransaction;
 import com.bankrecon.repository.BankTransactionRepository;
-import com.bankrecon.repository.SourceTransactionRepository;
 import com.bankrecon.repository.ReconciliationGroupRepository;
+import com.bankrecon.repository.ReconciliationItemRepository;
+import com.bankrecon.repository.SourceTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.ArrayList;
 
 @Service
 public class TransactionService {
@@ -25,6 +25,9 @@ public class TransactionService {
 
     @Autowired
     private ReconciliationGroupRepository reconciliationGroupRepository;
+
+    @Autowired
+    private ReconciliationItemRepository reconciliationItemRepository;
 
     @Transactional
     public String autoMatchTransactions() {
@@ -46,21 +49,17 @@ public class TransactionService {
             if (match != null) {
                 ReconciliationGroup group = new ReconciliationGroup();
                 group.setStatus("PREPARED");
-
-                List<ReconciliationItem> items = new ArrayList<>();
+                reconciliationGroupRepository.save(group);
 
                 ReconciliationItem item1 = new ReconciliationItem();
                 item1.setGroup(group);
                 item1.setBankTransaction(bankTx);
-                items.add(item1);
+                reconciliationItemRepository.save(item1);
 
                 ReconciliationItem item2 = new ReconciliationItem();
                 item2.setGroup(group);
                 item2.setSourceTransaction(match);
-                items.add(item2);
-
-                group.setItems(items);
-                reconciliationGroupRepository.save(group);
+                reconciliationItemRepository.save(item2);
 
                 bankTx.setStatus("MATCHED");
                 bankTransactionRepository.save(bankTx);

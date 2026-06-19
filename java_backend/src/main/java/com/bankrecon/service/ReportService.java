@@ -5,7 +5,6 @@ import com.bankrecon.repository.ReportRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -23,7 +22,6 @@ public class ReportService {
             report.setStatus("PROCESSING");
             reportRequestRepository.save(report);
 
-            // Mock generation logic
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {

@@ -26,7 +26,7 @@ public class BankAccount {
     @Column(nullable = false, length = 50)
     private String accountType;
 
-    @Column(length = 3, columnDefinition = "VARCHAR(3) DEFAULT 'INR'")
+    @Column(length = 3)
     private String currency = "INR";
 
     @Column(precision = 15, scale = 2)
