@@ -15,3 +15,4 @@ celerybeat.pid
 
 # Docker
 .env
+java_backend/target/
